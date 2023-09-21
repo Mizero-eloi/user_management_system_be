@@ -3,10 +3,10 @@ import { errorResponse } from "../utils/api.response.js";
 const { verify } = jwt;
 
 export default function (req, res, next) {
-  if (!req.header("auth-token"))
+  if (!req.header("Authorization"))
     return res.status(401).send("Access denied! you must be logged in");
 
-  var token = req.header("auth-token").trim();
+  var token = req.header("Authorization").trim();
 
   if (!token)
     return res.status(401).send("Access denied! you must be logged in");
@@ -16,7 +16,7 @@ export default function (req, res, next) {
     req.user = user;
     next();
   } catch (ex) {
-    console.log(ex)
+    console.log(ex);
     return errorResponse("Invalid token!", res);
   }
 }
