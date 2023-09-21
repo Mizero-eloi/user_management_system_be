@@ -17,6 +17,21 @@ export async function validateAdminRegistration(req, res, next) {
     return errorResponse(ex.message, res);
   }
 }
+export async function validateUserUpdate(req, res, next) {
+  try {
+    const schema = Joi.object({
+      name: Joi.string().required().label("Name"),
+      email: Joi.string().email().required().label("Email"),
+    });
+
+    const { error } = schema.validate(req.body);
+    if (error) return errorResponse(error.message, res);
+
+    return next();
+  } catch (ex) {
+    return errorResponse(ex.message, res);
+  }
+}
 
 export async function validateLogin(req, res, next) {
   try {
